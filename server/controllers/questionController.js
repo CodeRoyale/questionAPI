@@ -1,56 +1,48 @@
 const Question = require('../models/questionModel');
 
-const putQuestion = async (req, res) => {
-  try {
-    const {
-      questionTitle,
-      problemCode,
-      description,
-      author,
-      tags,
-      dateAdded,
-      timeLimit,
-      sourceLimit,
-      difficulty,
-    } = req.body; // storing everything from request body into new question object
-
-    const question = {};
-    question.questionTitle = questionTitle;
-    question.problemCode = problemCode;
-    question.description = description;
-    question.author = author;
-    question.tags = tags;
-    question.dateAdded = dateAdded;
-    question.timeLimit = timeLimit;
-    question.sourceLimit = sourceLimit;
-    question.difficulty = difficulty;
-
-    const questionModel = new Question(question);
-    await questionModel.save();
-    res.json(questionModel);
-  } catch (err) {
-    res.status(401).json({
-      message: err.message,
-    });
-    console.log(err);
-  }
+const putQuestion = (req, res, next) => {
+  Question.create(req.body)
+    .then(
+      (question) => {
+        console.log('Question Created', question);
+        res.statusCode = 201;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(question);
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
 };
 
 const getQuestion = async (req, res) => {
   try {
-    const questions = await Question.find({});
-    res.status(201).json({
-      message: questions,
-    });
+    console.log(req.query);
+    if (req.query.tags) {
+      console.log(req.query.tags);
+
+      const questions = await Question.find({ tags: { $in: req.query.tags } });
+      res.status(200).json({ message: questions });
+    }
   } catch (err) {
-    res.status(401).json({
-      message: err.message,
-    });
+    res.status(401).json({ message: err.message });
   }
+};
+
+const delQuestion = (req, res, next) => {
+  Question.remove({})
+    .then(
+      (resp) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(resp);
+      },
+      (err) => next(err)
+    )
+    .catch((err) => next(err));
 };
 
 module.exports = {
   getQuestion,
   putQuestion,
-  // eslint-disable-next-line prettier/prettier
+  delQuestion,
 };
