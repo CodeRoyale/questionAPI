@@ -5,9 +5,10 @@ const putQuestion = (req, res, next) => {
     .then(
       (question) => {
         console.log('Question Created', question);
-        res.statusCode = 201;
         res.setHeader('Content-Type', 'application/json');
-        res.json(question);
+        res.status(201).json({
+          message: 'Question Created',
+        });
       },
       (err) => next(err)
     )
