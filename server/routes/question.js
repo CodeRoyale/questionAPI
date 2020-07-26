@@ -10,10 +10,10 @@ const {
   delQuestion,
 } = require('../controllers/questionController');
 
-route.post('/post', putQuestion);
+route.post('/', putQuestion);
 
-route.get('/get', getQuestion);
+route.get('/', getQuestion);
 
-route.delete('/delete', delQuestion);
+route.delete('/', delQuestion);
 
 module.exports = route;

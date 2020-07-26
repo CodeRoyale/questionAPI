@@ -5,7 +5,7 @@ const putQuestion = (req, res, next) => {
     .then(
       (question) => {
         console.log('Question Created', question);
-        res.setHeader('Content-Type', 'application/json');
+
         res.status(201).json({
           message: 'Question Created',
         });
@@ -23,6 +23,8 @@ const getQuestion = async (req, res) => {
 
       const questions = await Question.find({ tags: { $in: req.query.tags } });
       res.status(200).json({ message: questions });
+    } else {
+      res.status(200).json({ message: 'empty' });
     }
   } catch (err) {
     res.status(401).json({ message: err.message });
