@@ -7,7 +7,7 @@ const putQuestion = (req, res, next) => {
         console.log('Question Created', question);
 
         res.status(201).json({
-          message: 'Question Created',
+          message: question,
         });
       },
       (err) => next(err)
@@ -24,14 +24,16 @@ const getQuestion = async (req, res) => {
       const questions = await Question.find({ tags: { $in: req.query.tags } });
       res.status(200).json({ message: questions });
     } else {
-      res.status(200).json({ message: 'empty' });
+      const questions = await Question.findOne({});
+      console.log(questions);
+      res.status(200).json({ message: questions });
     }
   } catch (err) {
     res.status(401).json({ message: err.message });
   }
 };
 
-const delQuestion = (req, res, next) => {
+const deleteQuestion = (req, res, next) => {
   Question.remove({})
     .then(
       (resp) => {
@@ -44,8 +46,35 @@ const delQuestion = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+const deleteQuestionById = async (req, res) => {
+  try {
+    const deleteMessage = await Question.deleteOne({
+      _id: req.params.questionId,
+    });
+    res.status(201).json({ message: deleteMessage });
+  } catch (err) {
+    res.status(401).json({ message: err });
+  }
+};
+
+const patchQuestionById = async (req, res) => {
+  console.log('lol');
+  try {
+    const updateMessage = await Question.updateOne(
+      { _id: req.params.questionId },
+      { $set: req.body }
+    );
+    console.log(updateMessage);
+    res.status(201).json({ message: updateMessage });
+  } catch (err) {
+    res.status(401).json({ message: err });
+  }
+};
+
 module.exports = {
   getQuestion,
   putQuestion,
-  delQuestion,
+  deleteQuestion,
+  deleteQuestionById,
+  patchQuestionById,
 };

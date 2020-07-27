@@ -1,19 +1,23 @@
 const express = require('express');
-// const mongoose = require('mongoose');
-// const Question = require('../models/questionModel');
 
 const route = express.Router();
 
 const {
   getQuestion,
   putQuestion,
-  delQuestion,
+  deleteQuestion,
+  deleteQuestionById,
+  patchQuestionById,
 } = require('../controllers/questionController');
 
 route.post('/', putQuestion);
 
 route.get('/', getQuestion);
 
-route.delete('/', delQuestion);
+route.delete('/', deleteQuestion);
+
+route.delete('/:questionId', deleteQuestionById);
+
+route.patch('/:questionId', patchQuestionById);
 
 module.exports = route;

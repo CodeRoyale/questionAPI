@@ -48,7 +48,7 @@ describe('Question test suit', () => {
     });
   });
 
-  describe('/GET student', () => {
+  describe('/GET questions', () => {
     it('it should get question', (done) => {
       chai
         .request(server)
