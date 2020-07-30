@@ -1,18 +1,15 @@
 const Question = require('../models/questionModel');
 
-const putQuestion = (req, res, next) => {
-  Question.create(req.body)
-    .then(
-      (question) => {
-        console.log('Question Created', question);
-
-        res.status(201).json({
-          message: question,
-        });
-      },
-      (err) => next(err)
-    )
-    .catch((err) => next(err));
+const putQuestion = async (req, res) => {
+  try {
+    const question = await Question.create(req.body);
+    console.log('Question Created', question);
+    res.status(201).json({
+      message: question,
+    });
+  } catch (err) {
+    res.status(401).json({ message: err.message });
+  }
 };
 
 const getQuestion = async (req, res) => {
@@ -22,6 +19,7 @@ const getQuestion = async (req, res) => {
       console.log(req.query.tags);
 
       const questions = await Question.find({ tags: { $in: req.query.tags } });
+
       res.status(200).json({ message: questions });
     } else {
       const questions = await Question.findOne({});
@@ -33,17 +31,15 @@ const getQuestion = async (req, res) => {
   }
 };
 
-const deleteQuestion = (req, res, next) => {
-  Question.remove({})
-    .then(
-      (resp) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
-      },
-      (err) => next(err)
-    )
-    .catch((err) => next(err));
+const deleteQuestion = async (req, res) => {
+  try {
+    const resp = await Question.remove({});
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json(resp);
+  } catch (err) {
+    res.status(401).json({ message: err.message });
+  }
 };
 
 const deleteQuestionById = async (req, res) => {
@@ -53,12 +49,11 @@ const deleteQuestionById = async (req, res) => {
     });
     res.status(201).json({ message: deleteMessage });
   } catch (err) {
-    res.status(401).json({ message: err });
+    res.status(401).json({ message: err.message });
   }
 };
 
 const patchQuestionById = async (req, res) => {
-  console.log('lol');
   try {
     const updateMessage = await Question.updateOne(
       { _id: req.params.questionId },
@@ -67,7 +62,7 @@ const patchQuestionById = async (req, res) => {
     console.log(updateMessage);
     res.status(201).json({ message: updateMessage });
   } catch (err) {
-    res.status(401).json({ message: err });
+    res.status(401).json({ message: err.message });
   }
 };
 
