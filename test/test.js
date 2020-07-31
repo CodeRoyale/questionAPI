@@ -7,8 +7,6 @@ const { server } = require('../server/server');
 
 const should = chai.should();
 
-// console.log('server is ', server);
-
 chai.use(chaiHttp);
 
 // 1st question for testing
@@ -40,7 +38,6 @@ const questionDetails1 = {
 
 const questionDetails2 = {
   questionTitle: 'Prime Numbers',
-
   dateAdded: '29-07-20',
   timeLimit: 3,
   sourceLimit: 4,
@@ -56,6 +53,49 @@ const questionDetails3 = {
   dateAdded: '29-07-20',
   timeLimit: 3,
   sourceLimit: 'sdadsad',
+  difficulty: 7,
+};
+// questions for patch testing
+const beforeQuestion = {
+  questionTitle: 'Array of Strings',
+  problemCode: 'ARRSTR',
+  description:
+    'There is a array which is made up of strings and you have to do what you have to do.',
+  author: 'Sanidh',
+  tags: ['Array', 'Strings'],
+  dateAdded: '12-13-12',
+  timeLimit: 2,
+  sourceLimit: 4,
+  difficulty: 6,
+};
+
+const afterQuestion = {
+  questionTitle: 'String of Arrays',
+  problemCode: 'STRARR',
+  description:
+    'There is a array which is made up of strings and you have to do what you have to do.',
+  author: 'Sanith',
+  tags: ['Graph', 'Strings'],
+  dateAdded: '12-13-13',
+  timeLimit: 3,
+  sourceLimit: 5,
+  difficulty: 7,
+};
+
+// id for patch testing
+let id = 0;
+// creating a illegal question
+const illegalQuestion = {
+  _id: `newID6969`,
+  questionTitle: 'String of Arrays',
+  problemCode: 'STRARR',
+  description:
+    'There is a array which is made up of strings and you have to do what you have to do.',
+  author: 'Sanith',
+  tags: ['Graph', 'Strings'],
+  dateAdded: '12-13-13',
+  timeLimit: 3,
+  sourceLimit: 5,
   difficulty: 7,
 };
 // for getting the question id for the 1st question
@@ -95,7 +135,6 @@ describe('Question test suit', () => {
           res.body.message.should.have.property('timeLimit').eql(1);
           res.body.message.should.have.property('sourceLimit').eql(3);
           res.body.message.should.have.property('difficulty').eql(5);
-
           res.body.message.should.be.an('Object');
           // stored the question id and will be used in delete question by id
           questionId = res.body.message._id;
@@ -144,7 +183,6 @@ describe('Question test suit', () => {
         .get('/questions?tags=Linear Data Structure')
         .end((err, res) => {
           res.should.have.status(200);
-
           res.body.message[0].should.have
             .property('questionTitle')
             .eql('Chef and Street Food');
@@ -164,7 +202,6 @@ describe('Question test suit', () => {
           res.body.message[0].should.have.property('timeLimit').eql(1);
           res.body.message[0].should.have.property('sourceLimit').eql(3);
           res.body.message[0].should.have.property('difficulty').eql(5);
-
           res.body.message[0].should.be.an('Object');
           done();
         });
@@ -176,7 +213,6 @@ describe('Question test suit', () => {
         .get('/questions')
         .end((err, res) => {
           res.should.have.status(200);
-
           res.body.message.should.have
             .property('questionTitle')
             .eql('Chef and Street Food');
@@ -194,7 +230,6 @@ describe('Question test suit', () => {
           res.body.message.should.have.property('timeLimit').eql(1);
           res.body.message.should.have.property('sourceLimit').eql(3);
           res.body.message.should.have.property('difficulty').eql(5);
-
           res.body.message.should.be.an('Object');
           done();
         });
@@ -209,7 +244,6 @@ describe('Question test suit', () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
-          console.log(res.body);
           res.body.message.should.have.property('n').eql(1);
           res.body.message.should.have.property('ok').eql(1);
           res.body.message.should.have.property('deletedCount').eql(1);
@@ -217,7 +251,7 @@ describe('Question test suit', () => {
         });
     });
 
-    it('it should ignore deleting a article without particular id', (done) => {
+    it('it should ignore deleting a question without particular id', (done) => {
       chai
         .request(server)
         // random and illegal id
@@ -227,7 +261,6 @@ describe('Question test suit', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           res.body.should.have.property('message').be.a('object');
-          console.log(res.body);
           res.body.message.should.have.property('n').eql(0);
           res.body.message.should.have.property('ok').eql(1);
           res.body.message.should.have.property('deletedCount').eql(0);
@@ -257,7 +290,6 @@ describe('Question test suit', () => {
         .delete('/questions')
         .end((err, res) => {
           res.body.should.be.a('object');
-
           res.body.message.should.have.property('n').eql(1);
           res.body.message.should.have.property('ok').eql(1);
           res.body.message.should.have.property('deletedCount').eql(1);
@@ -265,34 +297,7 @@ describe('Question test suit', () => {
         });
     });
   });
-  // questions for patch testing
-  const beforeQuestion = {
-    questionTitle: 'Array of Strings',
-    problemCode: 'ARRSTR',
-    description:
-      'There is a array which is made up of strings and you have to do what you have to do.',
-    author: 'Sanidh',
-    tags: ['Array', 'Strings'],
-    dateAdded: '12-13-12',
-    timeLimit: 2,
-    sourceLimit: 4,
-    difficulty: 6,
-  };
 
-  const afterQuestion = {
-    questionTitle: 'String of Arrays',
-    problemCode: 'STRARR',
-    description:
-      'There is a array which is made up of strings and you have to do what you have to do.',
-    author: 'Sanith',
-    tags: ['Graph', 'Strings'],
-    dateAdded: '12-13-13',
-    timeLimit: 3,
-    sourceLimit: 5,
-    difficulty: 7,
-  };
-  // id for patch testing
-  let id = 0;
   describe('/PATCH question with ID', () => {
     it('it should patch a added question', (done) => {
       chai
@@ -313,7 +318,6 @@ describe('Question test suit', () => {
             .eql(
               'There is a array which is made up of strings and you have to do what you have to do.'
             );
-          // res.body.message.should.have.property('tags')[0].eql('Array');
           res.body.message.should.have.property('author').eql('Sanidh');
           res.body.message.should.have.property('dateAdded').eql('12-13-12');
           res.body.message.should.have.property('timeLimit').eql(2);
@@ -328,7 +332,6 @@ describe('Question test suit', () => {
             .patch(`/questions/${id}`)
             .send(afterQuestion)
             .end((err, res) => {
-              console.log(res);
               res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.should.have.property('message');
@@ -370,20 +373,6 @@ describe('Question test suit', () => {
 
     // an update to _id is not possible
     it('it should not update _id', (done) => {
-      // creating a illegal question
-      const illegalQuestion = {
-        _id: `newID6969`,
-        questionTitle: 'String of Arrays',
-        problemCode: 'STRARR',
-        description:
-          'There is a array which is made up of strings and you have to do what you have to do.',
-        author: 'Sanith',
-        tags: ['Graph', 'Strings'],
-        dateAdded: '12-13-13',
-        timeLimit: 3,
-        sourceLimit: 5,
-        difficulty: 7,
-      };
       chai
         .request(server)
         .patch(`/questions/${id}`)
