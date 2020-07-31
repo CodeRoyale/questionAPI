@@ -11,6 +11,7 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
+// 1st question for testing
 const questionDetails = {
   questionTitle: 'Chef and Street Food',
   problemCode: 'STFOOD',
@@ -24,6 +25,7 @@ const questionDetails = {
   difficulty: 5,
 };
 
+// 2nd question for testing
 const questionDetails1 = {
   questionTitle: 'Prime Numbers',
   problemCode: 'PMNRS',
@@ -36,6 +38,27 @@ const questionDetails1 = {
   difficulty: 7,
 };
 
+const questionDetails2 = {
+  questionTitle: 'Prime Numbers',
+
+  dateAdded: '29-07-20',
+  timeLimit: 3,
+  sourceLimit: 4,
+  difficulty: 7,
+};
+
+const questionDetails3 = {
+  questionTitle: 'Prime Numbers',
+  problemCode: 'PMNRS',
+  description: 'FIND PRIME NUMBERS',
+  author: 'naveen',
+  tags: 'Mathematics',
+  dateAdded: '29-07-20',
+  timeLimit: 3,
+  sourceLimit: 'sdadsad',
+  difficulty: 7,
+};
+// for getting the question id for the 1st question
 let questionId = 0;
 
 describe('Question test suit', () => {
@@ -47,7 +70,7 @@ describe('Question test suit', () => {
   });
 
   describe('/POST question', () => {
-    // Register student
+    // ADD question
     it('it should post question', (done) => {
       chai
         .request(server)
@@ -74,14 +97,47 @@ describe('Question test suit', () => {
           res.body.message.should.have.property('difficulty').eql(5);
 
           res.body.message.should.be.an('Object');
-          console.log('responce from post is :');
+          // stored the question id and will be used in delete question by id
           questionId = res.body.message._id;
+          done();
+        });
+    });
+
+    it('it should give error when keys which are not having default values are not given values', (done) => {
+      chai
+        .request(server)
+        .post('/questions')
+        .send(questionDetails2)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.have
+            .property('message')
+            .eql(
+              'question validation failed: author: Path `author` is required., description: Path `description` is required., problemCode: Path `problemCode` is required.'
+            );
+          done();
+        });
+    });
+
+    it('it should give error when mismatch of type is given', (done) => {
+      chai
+        .request(server)
+        .post('/questions')
+        .send(questionDetails3)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.have
+            .property('message')
+            .eql(
+              'question validation failed: sourceLimit: Cast to Number failed for value "sdadsad" at path "sourceLimit"'
+            );
           done();
         });
     });
   });
 
   describe('/GET questions', () => {
+    // GET the added question
     it('it should get question', (done) => {
       chai
         .request(server)
@@ -113,65 +169,50 @@ describe('Question test suit', () => {
           done();
         });
     });
+
+    it('It gets the first question poseted if tags is not given as parameter', (done) => {
+      chai
+        .request(server)
+        .get('/questions')
+        .end((err, res) => {
+          res.should.have.status(200);
+
+          res.body.message.should.have
+            .property('questionTitle')
+            .eql('Chef and Street Food');
+          res.body.message.should.have.property('problemCode').eql('STFOOD');
+          res.body.message.should.have
+            .property('description')
+            .eql(
+              'Chef wants to maximise his daily profit. Help Chef choose which type of food to offer and find the maximum daily profit he can make.'
+            );
+          res.body.message.should.have.property('author').eql('kingofnumbers');
+          res.body.message.should.have
+            .property('tags')
+            .eql(['Linear Data Structure']);
+          res.body.message.should.have.property('dateAdded').eql('12-13-11');
+          res.body.message.should.have.property('timeLimit').eql(1);
+          res.body.message.should.have.property('sourceLimit').eql(3);
+          res.body.message.should.have.property('difficulty').eql(5);
+
+          res.body.message.should.be.an('Object');
+          done();
+        });
+    });
   });
 
-  // describe('/PATCH QUESTION BY ID', () => {
-  //   it('it should update question by id ', (done) => {
-  //     chai
-  //       .request(server)
-  //       .patch('/questions/', questionId)
-  //       .end((err, res) => {
-  //         res.should.have.status(201);
-  //         res.body.should.have.property('n').eql(1);
-  //         res.body.should.have.property('ok').eql(1);
-  //         res.body.should.have.property('deletedCount').eql(1);
-  //         done();
-  //       });
-  //   });
-  // });
-
-  // describe('/POST question', () => {
-  //   // Register student
-  //   it('it should post question', (done) => {
-  //     chai
-  //       .request(server)
-  //       .post('/questions')
-  //       .send(questionDetails1)
-  //       .end((err, res) => {
-  //         res.should.have.status(201);
-  //         questionId1 = res.body.message._id;
-  //         done();
-  //       });
-  //   });
-  // });
-
-  // describe('/DELETE QUESTION BY ID', () => {
-  //   it('it should delete question by id ', (done) => {
-  //     chai
-  //       .request(server)
-  //       .delete('/questions/', questionId1)
-  //       .end((err, res) => {
-  //         res.should.have.status(200);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('n').eql(1);
-  //         res.body.should.have.property('ok').eql(1);
-  //         res.body.should.have.property('deletedCount').eql(1);
-  //         done();
-  //       });
-  //   });
-  // });
   describe('/DELETE QUESTION BY ID', () => {
     it('it should delete question by id ', (done) => {
       chai
         .request(server)
         .delete('/questions/', questionId)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(201);
           res.body.should.be.a('object');
           console.log(res.body);
-          res.body.should.have.property('n').eql(1);
-          res.body.should.have.property('ok').eql(1);
-          res.body.should.have.property('deletedCount').eql(1);
+          res.body.message.should.have.property('n').eql(1);
+          res.body.message.should.have.property('ok').eql(1);
+          res.body.message.should.have.property('deletedCount').eql(1);
           done();
         });
     });
@@ -179,6 +220,7 @@ describe('Question test suit', () => {
     it('it should ignore deleting a article without particular id', (done) => {
       chai
         .request(server)
+        // random and illegal id
         .delete('/questions/5ea5dc9e92a6a52cc245389e')
         .end((err, res) => {
           res.should.have.status(201);
@@ -193,6 +235,8 @@ describe('Question test suit', () => {
         });
     });
   });
+
+  // posted
   describe('/POST question', () => {
     // Register student
     it('it should post question', (done) => {
@@ -207,21 +251,21 @@ describe('Question test suit', () => {
     });
   });
   describe('/DELETE ALL QUESTIONS', () => {
-    it('it should delete questions', (done) => {
+    it('it should delete all the questions', (done) => {
       chai
         .request(server)
         .delete('/questions')
         .end((err, res) => {
           res.body.should.be.a('object');
 
-          res.body.should.have.property('n').eql(1);
-          res.body.should.have.property('ok').eql(1);
-          res.body.should.have.property('deletedCount').eql(1);
+          res.body.message.should.have.property('n').eql(1);
+          res.body.message.should.have.property('ok').eql(1);
+          res.body.message.should.have.property('deletedCount').eql(1);
           done();
         });
     });
   });
-
+  // questions for patch testing
   const beforeQuestion = {
     questionTitle: 'Array of Strings',
     problemCode: 'ARRSTR',
@@ -247,6 +291,7 @@ describe('Question test suit', () => {
     sourceLimit: 5,
     difficulty: 7,
   };
+  // id for patch testing
   let id = 0;
   describe('/PATCH question with ID', () => {
     it('it should patch a added question', (done) => {
@@ -258,7 +303,7 @@ describe('Question test suit', () => {
           res.should.have.status(201);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
-
+          // initial check
           res.body.message.should.have
             .property('questionTitle')
             .eql('Array of Strings');
@@ -275,9 +320,8 @@ describe('Question test suit', () => {
           res.body.message.should.have.property('sourceLimit').eql(4);
           res.body.message.should.have.property('difficulty').eql(6);
           res.body.message.should.have.property('_id');
+          // storing the id
           id = res.body.message._id;
-          console.log(id);
-
           // now we check the question update status
           return chai
             .request(server)
@@ -304,6 +348,7 @@ describe('Question test suit', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
+          // after patch check
           res.body.message[0].should.have
             .property('questionTitle')
             .eql('String of Arrays');
@@ -313,7 +358,6 @@ describe('Question test suit', () => {
             .eql(
               'There is a array which is made up of strings and you have to do what you have to do.'
             );
-          // res.body.message[0].should.have.property('tags')[0].eql('Graph');
           res.body.message[0].should.have.property('author').eql('Sanith');
           res.body.message[0].should.have.property('dateAdded').eql('12-13-13');
           res.body.message[0].should.have.property('timeLimit').eql(3);
@@ -325,6 +369,7 @@ describe('Question test suit', () => {
 
     // an update to _id is not possible
     it('it should not update _id', (done) => {
+      // creating a illegal question
       const illegalQuestion = {
         _id: `newID6969`,
         questionTitle: 'String of Arrays',
