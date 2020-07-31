@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 const Question = require('../server/models/questionModel');
 const { server } = require('../server/server');
 
-let should = chai.should();
+const should = chai.should();
 
 // console.log('server is ', server);
 

@@ -3,12 +3,13 @@ const Question = require('../models/questionModel');
 const putQuestion = async (req, res) => {
   try {
     const question = await Question.create(req.body);
-    console.log('Question Created', question);
     res.status(201).json({
       message: question,
     });
   } catch (err) {
-    res.status(401).json({ message: err.message });
+    res.status(401).json({
+      message: err.message,
+    });
   }
 };
 
@@ -26,6 +27,7 @@ const getQuestion = async (req, res) => {
       });
     } else {
       const questions = await Question.findOne({});
+
       res.status(200).json({
         message: questions,
       });
@@ -68,13 +70,21 @@ const deleteQuestionById = async (req, res) => {
 const patchQuestionById = async (req, res) => {
   try {
     const updateMessage = await Question.updateOne(
-      { _id: req.params.questionId },
-      { $set: req.body }
+      {
+        _id: req.params.questionId,
+      },
+      {
+        $set: req.body,
+      }
     );
-    console.log(updateMessage);
-    res.status(201).json({ message: updateMessage });
+
+    res.status(201).json({
+      message: updateMessage,
+    });
   } catch (err) {
-    res.status(401).json({ message: err.message });
+    res.status(401).json({
+      message: err.message,
+    });
   }
 };
 
