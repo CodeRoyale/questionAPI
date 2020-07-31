@@ -64,7 +64,7 @@ let questionId = 0;
 describe('Question test suit', () => {
   before((done) => {
     // Before each test we empty the database
-    Question.deleteMany({}, (err) => {
+    Question.deleteMany({}, () => {
       done(); // doubt
     });
   });
@@ -328,6 +328,7 @@ describe('Question test suit', () => {
             .patch(`/questions/${id}`)
             .send(afterQuestion)
             .end((err, res) => {
+              console.log(res);
               res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.should.have.property('message');
