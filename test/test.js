@@ -105,7 +105,7 @@ describe('Question test suit', () => {
   before((done) => {
     // Before each test we empty the database
     Question.deleteMany({}, () => {
-      done(); // doubt
+      done();
     });
   });
 
@@ -118,6 +118,7 @@ describe('Question test suit', () => {
         .send(questionDetails)
         .end((err, res) => {
           res.should.have.status(201);
+          res.body.message.should.be.an('Object');
           res.body.message.should.have
             .property('questionTitle')
             .eql('Chef and Street Food');
@@ -135,7 +136,7 @@ describe('Question test suit', () => {
           res.body.message.should.have.property('timeLimit').eql(1);
           res.body.message.should.have.property('sourceLimit').eql(3);
           res.body.message.should.have.property('difficulty').eql(5);
-          res.body.message.should.be.an('Object');
+
           // stored the question id and will be used in delete question by id
           questionId = res.body.message._id;
           done();
@@ -183,6 +184,7 @@ describe('Question test suit', () => {
         .get('/questions?tags=Linear Data Structure')
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.message[0].should.be.an('Object');
           res.body.message[0].should.have
             .property('questionTitle')
             .eql('Chef and Street Food');
@@ -202,7 +204,6 @@ describe('Question test suit', () => {
           res.body.message[0].should.have.property('timeLimit').eql(1);
           res.body.message[0].should.have.property('sourceLimit').eql(3);
           res.body.message[0].should.have.property('difficulty').eql(5);
-          res.body.message[0].should.be.an('Object');
           done();
         });
     });
@@ -213,6 +214,7 @@ describe('Question test suit', () => {
         .get('/questions')
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.message.should.be.an('Object');
           res.body.message.should.have
             .property('questionTitle')
             .eql('Chef and Street Food');
@@ -230,7 +232,6 @@ describe('Question test suit', () => {
           res.body.message.should.have.property('timeLimit').eql(1);
           res.body.message.should.have.property('sourceLimit').eql(3);
           res.body.message.should.have.property('difficulty').eql(5);
-          res.body.message.should.be.an('Object');
           done();
         });
     });
@@ -271,7 +272,7 @@ describe('Question test suit', () => {
 
   // posted
   describe('/POST question', () => {
-    // Register student
+    // add question
     it('it should post question', (done) => {
       chai
         .request(server)
