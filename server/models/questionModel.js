@@ -5,6 +5,10 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  picture: {
+    type: String,
+    required: false,
+  },
   problemCode: {
     type: String,
     required: true,
@@ -37,6 +41,10 @@ const questionSchema = new mongoose.Schema({
   },
   difficulty: {
     type: Number,
+    required: true,
+  },
+  testcase: {
+    type: [String],
     required: true,
   },
 });

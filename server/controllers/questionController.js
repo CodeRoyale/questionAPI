@@ -39,6 +39,21 @@ const getQuestion = async (req, res) => {
   }
 };
 
+const getTestCase = async (req, res) => {
+  try {
+    const question = await Question.findOne({
+      _id: req.params.questionId,
+    });
+    res.status(200).json({
+      message: question.testcase[0],
+    });
+  } catch (err) {
+    res.status(401).json({
+      message: err.message,
+    });
+  }
+};
+
 const deleteQuestion = async (req, res) => {
   try {
     const resp = await Question.remove({});
@@ -89,8 +104,9 @@ const patchQuestionById = async (req, res) => {
 };
 
 module.exports = {
-  getQuestion,
   putQuestion,
+  getQuestion,
+  getTestCase,
   deleteQuestion,
   deleteQuestionById,
   patchQuestionById,

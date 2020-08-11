@@ -5,6 +5,7 @@ const route = express.Router();
 const {
   getQuestion,
   putQuestion,
+  getTestCase,
   deleteQuestion,
   deleteQuestionById,
   patchQuestionById,
@@ -13,6 +14,8 @@ const {
 route.post('/', putQuestion);
 
 route.get('/', getQuestion);
+
+route.get('/test/:questionId', getTestCase);
 
 route.delete('/', deleteQuestion);
 
