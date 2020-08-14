@@ -26,7 +26,7 @@ const getQuestion = async (req, res) => {
         message: questions,
       });
     } else {
-      const questions = await Question.findOne({});
+      const questions = await Question.find({});
 
       res.status(200).json({
         message: questions,
@@ -36,6 +36,30 @@ const getQuestion = async (req, res) => {
     res.status(401).json({
       message: err.message,
     });
+  }
+};
+
+const getQuestionById = async (req, res) => {
+  try {
+    const size = req.body.id.length;
+    console.log(req.body.id);
+    const qids = [];
+    let i;
+    for (i = 0; i < size; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      const question = await Question.findOne({ _id: req.body.id[i] });
+      qids.push(question);
+    }
+    console.log(qids);
+    res.status(200).json({
+      message: qids,
+    });
+    res.status(200).json({
+      message: size,
+    });
+  } catch (err) {
+    // wrong id by user
+    res.status(401).json({ message: err.message });
   }
 };
 
@@ -91,6 +115,7 @@ const patchQuestionById = async (req, res) => {
 module.exports = {
   getQuestion,
   putQuestion,
+  getQuestionById,
   deleteQuestion,
   deleteQuestionById,
   patchQuestionById,
