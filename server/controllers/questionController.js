@@ -56,7 +56,6 @@ const getRandom = async (req, res, n) => {
       // eslint-disable-next-line no-underscore-dangle
       qids.push(NRandomIds[i]._id);
     }
-    console.log(qids);
 
     res.status(200).json({
       message: qids,
