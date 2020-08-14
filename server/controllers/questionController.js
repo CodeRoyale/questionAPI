@@ -42,7 +42,6 @@ const getQuestion = async (req, res) => {
 const getQuestionById = async (req, res) => {
   try {
     const size = req.body.id.length;
-    console.log(req.body.id);
     const qids = [];
     let i;
     for (i = 0; i < size; i += 1) {
@@ -50,12 +49,8 @@ const getQuestionById = async (req, res) => {
       const question = await Question.findOne({ _id: req.body.id[i] });
       qids.push(question);
     }
-    console.log(qids);
     res.status(200).json({
       message: qids,
-    });
-    res.status(200).json({
-      message: size,
     });
   } catch (err) {
     // wrong id by user
