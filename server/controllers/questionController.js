@@ -39,8 +39,10 @@ const getQuestion = async (req, res) => {
   }
 };
 
-const getRandom = async (req, res, n) => {
+const getRandom = async (req, res) => {
   try {
+    const n = parseInt(req.query.noIds);
+    console.log(req.query);
     const NRandomIds = await Question.aggregate([
       {
         $sample: {
