@@ -4,19 +4,19 @@ const route = express.Router();
 
 const {
   putQuestion,
-  getQuestion,
   getRandom,
+  getQuestion,
+  getQuestionById,
   deleteQuestion,
   deleteQuestionById,
   patchQuestionById,
-  getQuestionById,
 } = require('../controllers/questionController');
 
 route.post('/', putQuestion);
 
-route.get('/', getQuestion);
+route.get('/random/:noIds', getRandom);
 
-route.get('/random', getRandom);
+route.get('/', getQuestion);
 
 route.post('/getQById', getQuestionById);
 

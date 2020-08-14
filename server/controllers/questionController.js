@@ -13,6 +13,35 @@ const putQuestion = async (req, res) => {
   }
 };
 
+const getRandom = async (req, res) => {
+  try {
+    const n = parseInt(req.query.noIds, 10);
+    const NRandomIds = await Question.aggregate([
+      {
+        $sample: {
+          size: n,
+        },
+      },
+    ]);
+
+    const qids = [];
+    let i;
+    // eslint-disable-next-line no-plusplus
+    for (i = 0; i < n; i++) {
+      // eslint-disable-next-line no-underscore-dangle
+      qids.push(NRandomIds[i]._id);
+    }
+
+    res.status(200).json({
+      message: qids,
+    });
+  } catch (err) {
+    res.status(401).json({
+      message: err.message,
+    });
+  }
+};
+
 const getQuestion = async (req, res) => {
   try {
     if (req.query.tags) {
@@ -39,26 +68,6 @@ const getQuestion = async (req, res) => {
   }
 };
 
-const getRandom = async (req, res) => {
-  try {
-    const n = parseInt(req.query.noIds);
-    console.log(req.query);
-    const NRandomIds = await Question.aggregate([
-      {
-        $sample: {
-          size: n,
-        },
-      },
-    ]);
-
-    const qids = [];
-    let i;
-    // eslint-disable-next-line no-plusplus
-    for (i = 0; i < n; i++) {
-      // eslint-disable-next-line no-underscore-dangle
-      qids.push(NRandomIds[i]._id);
-    }
-
 const getQuestionById = async (req, res) => {
   try {
     const size = req.body.id.length;
@@ -73,9 +82,6 @@ const getQuestionById = async (req, res) => {
       message: qids,
     });
   } catch (err) {
-    res.status(401).json({
-      message: err.message,
-    });
     // wrong id by user
     res.status(401).json({ message: err.message });
   }
@@ -132,8 +138,8 @@ const patchQuestionById = async (req, res) => {
 
 module.exports = {
   putQuestion,
-  getQuestion,
   getRandom,
+  getQuestion,
   getQuestionById,
   deleteQuestion,
   deleteQuestionById,
