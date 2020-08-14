@@ -39,6 +39,35 @@ const getQuestion = async (req, res) => {
   }
 };
 
+const getRandom = async (req, res, n) => {
+  try {
+    const NRandomIds = await Question.aggregate([
+      {
+        $sample: {
+          size: n,
+        },
+      },
+    ]);
+
+    const qids = [];
+    let i;
+    // eslint-disable-next-line no-plusplus
+    for (i = 0; i < n; i++) {
+      // eslint-disable-next-line no-underscore-dangle
+      qids.push(NRandomIds[i]._id);
+    }
+    console.log(qids);
+
+    res.status(200).json({
+      message: qids,
+    });
+  } catch (err) {
+    res.status(401).json({
+      message: err.message,
+    });
+  }
+};
+
 const deleteQuestion = async (req, res) => {
   try {
     const resp = await Question.remove({});
@@ -89,8 +118,9 @@ const patchQuestionById = async (req, res) => {
 };
 
 module.exports = {
-  getQuestion,
   putQuestion,
+  getQuestion,
+  getRandom,
   deleteQuestion,
   deleteQuestionById,
   patchQuestionById,

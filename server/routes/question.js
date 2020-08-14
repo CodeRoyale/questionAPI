@@ -3,8 +3,9 @@ const express = require('express');
 const route = express.Router();
 
 const {
-  getQuestion,
   putQuestion,
+  getQuestion,
+  getRandom,
   deleteQuestion,
   deleteQuestionById,
   patchQuestionById,
@@ -13,6 +14,8 @@ const {
 route.post('/', putQuestion);
 
 route.get('/', getQuestion);
+
+route.get('/random', getRandom);
 
 route.delete('/', deleteQuestion);
 
