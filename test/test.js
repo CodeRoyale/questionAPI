@@ -496,4 +496,93 @@ describe('Question test suit', () => {
         });
     });
   });
+
+  describe('/POST question for getRandom functionality', () => {
+    // ADD question
+    it('it should post question to get Random Id1', (done) => {
+      chai
+        .request(server)
+        .post('/questions')
+        .send(questionDetails)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.message.should.be.an('Object');
+          done();
+        });
+    });
+
+    it('it should post question to get Random Id2', (done) => {
+      chai
+        .request(server)
+        .post('/questions')
+        .send(questionDetails1)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.message.should.be.an('Object');
+          done();
+        });
+    });
+
+    it('it should post question to get Random Id3', (done) => {
+      chai
+        .request(server)
+        .post('/questions')
+        .send(questionDetails1)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.message.should.be.an('Object');
+          done();
+        });
+    });
+
+    it('it should post question to get Random Id4', (done) => {
+      chai
+        .request(server)
+        .post('/questions')
+        .send(questionDetails1)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.message.should.be.an('Object');
+          done();
+        });
+    });
+
+    it('it should post question to get Random Id5', (done) => {
+      chai
+        .request(server)
+        .post('/questions')
+        .send(beforeQuestion)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.message.should.be.an('Object');
+          done();
+        });
+    });
+  });
+
+  const qids = [];
+  describe('/GET questionIds for getRandom ', () => {
+    // GET the added questionIds
+    it('it should get n random questionIds', (done) => {
+      chai
+        .request(server)
+        .get('/questions/random?noIds=3')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.an('Object');
+          qids.push(res.body.message[0]);
+          qids.push(res.body.message[1]);
+          qids.push(res.body.message[2]);
+
+          const qidsset = new Set(qids);
+
+          if (qidsset.size === 3 && qids.length === 3) {
+            console.log(
+              'The n random questionIds selected from the question database are distinct.'
+            );
+          }
+          done();
+        });
+    });
+  });
 });
