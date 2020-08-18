@@ -10,7 +10,7 @@
     "prettier:write": "prettier --write ./server",
     "lint": "eslint ./server",
     "lint:fix": "eslint --fix ./server",
-    "test": "mocha --exit --timeout 10000 test/*.js"
+    "test": "mocha --exit --timeout 60000 test/*.js"
   },
   "author": "",
   "license": "ISC",

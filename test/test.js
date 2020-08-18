@@ -563,23 +563,23 @@ describe('Question test suit', () => {
   const qids = [];
   describe('/GET questionIds for getRandom ', () => {
     // GET the added questionIds
-    it('it should get n random questionIds', (done) => {
+    it('it should get n random distinct questionIds', (done) => {
       chai
         .request(server)
         .get('/questions/random?noIds=3')
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.an('Object');
+          res.body.message.should.be.a('array');
+          res.body.message.should.have.length(3);
           qids.push(res.body.message[0]);
           qids.push(res.body.message[1]);
           qids.push(res.body.message[2]);
 
           const qidsset = new Set(qids);
 
-          if (qidsset.size === 3 && qids.length === 3) {
-            console.log(
-              'The n random questionIds selected from the question database are distinct.'
-            );
+          if (qidsset.size !== qids.length) {
+            throw new Error('oh no!');
           }
           done();
         });
