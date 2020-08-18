@@ -578,9 +578,7 @@ describe('Question test suit', () => {
 
           const qidsset = new Set(qids);
 
-          if (qidsset.size !== qids.length) {
-            throw new Error('oh no!');
-          }
+          qidsset.should.have.length(qids.length);
           done();
         });
     });
