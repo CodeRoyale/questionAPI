@@ -104,6 +104,19 @@
  *           date_added:"23-02-2009",
  *           difficulty:3
  *                    }]
+ *      getTestCase:
+ *        type: object
+ *        properties:
+ *          message:
+ *            type: array
+ *            description: Takes an input of array of questionID's and return an object with question ID's and their testcases.
+ *        example:
+ *           message: {
+ *           "5f32aa1dd562473b18f8ebd9": ["abc"],
+ *           "5f32aa25d562473b18f8ebda": ["def"],
+ *           "5f32aa2dd562473b18f8ebdb": ["ghi"],
+ *           "5f32aa34d562473b18f8ebdc": ["jkl"]
+ *                    }
  *      deleteQuestion:
  *        type: object
  *        properties:

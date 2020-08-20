@@ -26,6 +26,6 @@ route.delete('/:questionId', deleteQuestionById);
 route.patch('/:questionId', patchQuestionById);
 
 // testcase routes
-route.get('/testcase', onlyAdmins, getTestCase);
+route.get('/testcase', getTestCase);
 
 module.exports = route;
