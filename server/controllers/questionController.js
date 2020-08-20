@@ -41,11 +41,17 @@ const getQuestion = async (req, res) => {
 
 const getTestCase = async (req, res) => {
   try {
-    const question = await Question.findOne({
-      _id: req.params.questionId,
-    });
+    const testArray = {};
+    const n = req.query.id.length;
+    let i;
+    // eslint-disable-next-line no-plusplus
+    for (i = 0; i < n; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      const question = await Question.findOne({ _id: req.query.id[i] });
+      testArray[req.query.id[i]] = question.testcase;
+    }
     res.status(200).json({
-      message: question.testcase[0],
+      message: testArray,
     });
   } catch (err) {
     res.status(401).json({
