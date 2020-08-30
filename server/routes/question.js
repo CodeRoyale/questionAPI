@@ -22,7 +22,7 @@ route.post('/testcase', putTestcase);
 
 route.get('/random', getRandom);
 
-route.get('/', getQuestion);
+route.get('/question', getQuestion);
 
 route.post('/getQById', getQuestionById);
 
