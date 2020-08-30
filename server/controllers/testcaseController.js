@@ -1,4 +1,4 @@
-const Testcase = require('../models/testcaseModel');
+const Testcase = require('../models/testCase');
 
 const putTestcase = async (req, res) => {
   try {
