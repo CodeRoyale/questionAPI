@@ -12,7 +12,13 @@ const {
   patchQuestionById,
 } = require('../controllers/questionController');
 
+const {
+  putTestcase,
+} = require('../controllers/testcaseController');
+
 route.post('/', putQuestion);
+
+route.post('/testcase', putTestcase);
 
 route.get('/random', getRandom);
 
