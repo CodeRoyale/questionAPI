@@ -55,7 +55,7 @@ const getQuestion = async (req, res) => {
         message: questions,
       });
     } else {
-      const questions = await Question.findOne({});
+      const questions = await Question.find({});
 
       res.status(200).json({
         message: questions,

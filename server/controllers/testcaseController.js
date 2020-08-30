@@ -16,18 +16,19 @@ const putTestcase = async (req, res) => {
 const getTestcase = async (req, res) => {
   try {
     const testArray = {};
-    const n = req.query.id.length;
+    let arr = Array(req.query.id);
+    const n = arr.length;
     let i;
-    console.log(req.query.id);
-    console.log('lol');
     // eslint-disable-next-line no-plusplus
     for (i = 0; i < n; i++) {
       // eslint-disable-next-line no-await-in-loop
-      const testcase = await Testcase.findOne({ qid: req.query.id[i] });
-      console.log(testcase);
-      testArray[req.query.id[i]] = testcase.testcases;
+      const testcase = await Testcase.findOne({
+        qid: {
+          $in: req.query.id,
+        },
+      });
+      testArray[arr[i]] = testcase.testcases;
     }
-    console.log(testArray);
     res.status(200).json({
       message: testArray,
     });

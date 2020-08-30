@@ -21,7 +21,7 @@ route.post('/', putQuestion);
 
 route.post('/testcase', putTestcase);
 
-route.post('/getTestcase', getTestcase);
+route.get('/getTestcase', getTestcase);
 
 route.get('/random', getRandom);
 
