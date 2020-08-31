@@ -612,31 +612,8 @@ const testcaseDetails = {
     }
   ]
 }
-
-// 2nd testcase for testing
-const testcaseDetails1 = { 
-  qid: "5f4b9e7aa024f595fd3b4469",  
-  testcases:[
-    {
-      input : "saveChangesInTheEditor",
-      output : "5"
-    },
-    {
-      input : "singleword",
-      output : "1"
-    },
-    {
-      input : "ab",
-      output : "1"
-    },
-    {
-      input : "abc",
-      output : "1"
-    }
-  ]
-}
   
-// 3rd testcase for testing
+// 2nd testcase for testing
 const testcaseDetails2 = {  
   testcases:[
     {
@@ -658,6 +635,7 @@ const testcaseDetails2 = {
   ]
 }
 
+let questionidTestcase = '';
 describe('TestCase test suit', () => {
   before((done) => {
     // Before each test we empty the database
