@@ -657,6 +657,7 @@ describe('TestCase test suit', () => {
           res.body.message.should.have
             .property('qid')
             .eql('5f4b9e61a024f595fd3b4468');
+          questionidTestcase = res.body.message.qid;
           done();
         });
     });
