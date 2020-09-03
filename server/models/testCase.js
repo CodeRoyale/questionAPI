@@ -10,7 +10,7 @@ const subschema = new mongoose.Schema({
 },{ _id : false });
 
 const testcaseSchema = new mongoose.Schema({
-  qid: {
+  problemCode: {
     type: String,
     required: true,
   },
