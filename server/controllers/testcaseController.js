@@ -41,7 +41,7 @@ const getTestcase = async (req, res) => {
 
 const patchTestCaseByProblemCode = async (req, res) => {
   try {
-    const updateMessage = await Question.updateOne(
+    const updateMessage = await Testcase.updateOne(
       {
         problemCode: req.params.problemCode,
       },
