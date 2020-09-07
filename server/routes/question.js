@@ -9,12 +9,13 @@ const {
   getQuestionById,
   deleteQuestion,
   deleteQuestionById,
-  patchQuestionById,
+  patchQuestionByProblemCode,
 } = require('../controllers/questionController');
 
 const {
   putTestcase,
   getTestcase,
+  patchTestCaseByProblemCode,
 } = require('../controllers/testcaseController');
 
 route.post('/', putQuestion);
@@ -33,6 +34,8 @@ route.delete('/deleteAll', deleteQuestion);
 
 route.delete('/deleteById/:questionId', deleteQuestionById);
 
-route.patch('/:questionId', patchQuestionById);
+route.patch('/patchQuestion', patchQuestionByProblemCode);
+
+route.patch('/patchTestCase', patchTestCaseByProblemCode);
 
 module.exports = route;

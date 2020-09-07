@@ -39,7 +39,29 @@ const getTestcase = async (req, res) => {
   }
 };
 
+const patchTestCaseByProblemCode = async (req, res) => {
+  try {
+    const updateMessage = await Question.updateOne(
+      {
+        problemCode: req.params.problemCode,
+      },
+      {
+        $set: req.body,
+      }
+    );
+
+    res.status(201).json({
+      message: updateMessage,
+    });
+  } catch (err) {
+    res.status(401).json({
+      message: err.message,
+    });
+  }
+};
+
 module.exports = {
   putTestcase,
   getTestcase,
+  patchTestCaseByProblemCode,
 };

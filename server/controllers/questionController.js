@@ -115,11 +115,11 @@ const deleteQuestionById = async (req, res) => {
   }
 };
 
-const patchQuestionById = async (req, res) => {
+const patchQuestionByProblemCode = async (req, res) => {
   try {
     const updateMessage = await Question.updateOne(
       {
-        _id: req.params.questionId,
+        problemCode: req.params.problemCode,
       },
       {
         $set: req.body,
@@ -143,5 +143,5 @@ module.exports = {
   getQuestionById,
   deleteQuestion,
   deleteQuestionById,
-  patchQuestionById,
+  patchQuestionByProblemCode,
 };
