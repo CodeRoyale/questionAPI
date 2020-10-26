@@ -13,10 +13,10 @@ const putQuestion = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(406).json({
       status: false,
       payload:{
-        message: RESPONSE.NOTCREATED
+        message: RESPONSE.MISSING
       }
     });
   }
@@ -49,9 +49,9 @@ const getRandom = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(406).json({
       status: false,
-      message: RESPONSE.NOTRECEIVED
+      message: RESPONSE.INVALID
     });
   }
 };
@@ -86,10 +86,10 @@ const getQuestion = async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(401).json({
+    res.status(406).json({
       status: false,
       payload: {
-        message: RESPONSE.NOTRECEIVED
+        message: RESPONSE.MISSING
       }
     });
   }
@@ -114,10 +114,10 @@ const getQuestionById = async (req, res) => {
     });
   } catch (err) {
     // wrong id by user
-    res.status(401).json({
+    res.status(406).json({
       status: false,
       payload: {
-        message: RESPONSE.NOTRECEIVED
+        message: RESPONSE.INVALID
       }
     });
   }
@@ -134,10 +134,10 @@ const deleteQuestion = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(404).json({
       status: false,
       payload: {
-        message: RESPONSE.NOTDELETED
+        message: RESPONSE.NODATA
       }
     });
   }
@@ -156,10 +156,10 @@ const deleteQuestionById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(404).json({
       status: false,
       payload: {
-        message: RESPONSE.NOTDELETED
+        message: RESPONSE.NODATA
       }
     });
   }
@@ -184,10 +184,10 @@ const patchQuestionById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(406).json({
       status: true,
       payload: {
-        message: RESPONSE.NOTRECEIVED
+        message: RESPONSE.INVALID
       }
     });
   }

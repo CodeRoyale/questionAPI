@@ -12,10 +12,10 @@ const putTestcase = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(406).json({
       status: false,
       payload: {
-        message: RESPONSE.NOTCREATED
+        message: RESPONSE.MISSING
       }
     });
   }
@@ -45,10 +45,10 @@ const getTestcase = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(401).json({
+    res.status(406).json({
       status: false,
       payload: {
-        message: RESPONSE.NOTRECEIVED
+        message: RESPONSE.INVALID
       }
     });
   }

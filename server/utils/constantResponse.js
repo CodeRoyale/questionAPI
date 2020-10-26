@@ -21,5 +21,5 @@ module.exports = {
     LOGOUT: 'SUCCESSFUL LOGOUT',
     UPDATE: 'DATA UPDATED',
     AVAILABLE: 'DATA UPDATABLE',
-    NOUSER: 'NO SUCH USER',
+    NODATA: 'NO SUCH DATA',
   };
