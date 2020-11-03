@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
     let token = req.headers.authorization.split(' ')[1];
     let payload = false;
 
-    if (req.query.lobbyID === 'lobbyOP') {
+    if (req.headers.lobbyID === 'lobbyOP') {
       if (token === LOBBY_SECRET) {
         payload = true;
       }
