@@ -33,6 +33,9 @@ module.exports = async (req, res, next) => {
           },
         });
       }
+    }
+
+    if(!payload) {
       res.status(403).json({
         status: false,
         payload: {
