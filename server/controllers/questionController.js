@@ -48,6 +48,7 @@ const getRandom = async (req, res) => {
       },
     });
   } catch (err) {
+    console.log(err.message);
     res.status(406).json({
       status: false,
       message: RESPONSE.INVALID,
