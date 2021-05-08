@@ -109,7 +109,6 @@ const getQuestionById = async (req, res) => {
         message: RESPONSE.RECEIVED,
         data: qids,
       },
-
     });
   } catch (err) {
     // wrong id by user
